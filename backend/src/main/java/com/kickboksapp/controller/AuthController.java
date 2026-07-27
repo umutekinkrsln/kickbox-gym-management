@@ -16,8 +16,6 @@ public class AuthController {
 
     private final AuthService authService;
 
-    // NOT: Bu endpoint su an herkese acik. Ilk admin/antrenoru olusturduktan sonra
-    // ileride bu endpoint'i sadece ADMIN rolune kapatmayi dusunebiliriz.
     @PostMapping("/register")
     public ResponseEntity<AuthResponse> register(@Valid @RequestBody RegisterRequest request) {
         return ResponseEntity.ok(authService.register(request));

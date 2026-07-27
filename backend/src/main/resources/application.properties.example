@@ -4,19 +4,22 @@ spring.application.name=kickbox-app
 # Kendi bilgisayarinda pgAdmin ile olusturdugun veritabani bilgilerini gir
 spring.datasource.url=jdbc:postgresql://localhost:5432/kickbox_db
 spring.datasource.username=postgres
-spring.datasource.password=12345
+spring.datasource.password=BURAYA_KENDI_SIFRENI_YAZ
 
 # --- JPA / Hibernate ---
-# update: entity degisince tabloyu otomatik gunceller (gelistirme icin rahat)
 spring.jpa.hibernate.ddl-auto=update
 spring.jpa.show-sql=true
 spring.jpa.properties.hibernate.format_sql=true
 spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
 
 # --- JWT ---
-# Bu secret'i .env ya da environment variable'a tasiyacagiz, simdilik burada
-jwt.secret=degistir-bu-cok-uzun-ve-guvenli-bir-secret-key-olmali-en-az-32-karakter
+jwt.secret=en-az-32-karakter-uzunlugunda-guvenli-bir-anahtar-yaz
 jwt.expiration-ms=86400000
 
 # --- Server ---
 server.port=8080
+
+# --- Gemini AI ---
+# API key'ini https://aistudio.google.com/apikey adresinden ucretsiz alabilirsin
+gemini.api.key=BURAYA_KENDI_API_KEYINI_YAZ
+gemini.model=gemini-3.6-flash

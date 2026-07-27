@@ -19,4 +19,4 @@ frontend/.vite/
 
 # --- Ortam degiskenleri (sifreler, API key'ler buraya asla girmemeli) ---
 .env
-**/application-local.properties
+backend/src/main/resources/application.properties

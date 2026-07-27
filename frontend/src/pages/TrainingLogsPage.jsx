@@ -16,6 +16,8 @@ export default function TrainingLogsPage() {
   const [form, setForm] = useState(emptyForm);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [summary, setSummary] = useState("");
+  const [summarizing, setSummarizing] = useState(false);
 
   useEffect(() => {
     async function loadMembers() {
@@ -31,12 +33,26 @@ export default function TrainingLogsPage() {
 
   useEffect(() => {
     if (!selectedMemberId) return;
+    setSummary("");
     async function loadLogs() {
       const res = await apiClient.get(`/training-logs/member/${selectedMemberId}`);
       setLogs(res.data);
     }
     loadLogs();
   }, [selectedMemberId]);
+
+  async function handleSummarize() {
+    setSummarizing(true);
+    setSummary("");
+    try {
+      const res = await apiClient.post(`/chatbot/summarize-member/${selectedMemberId}`);
+      setSummary(res.data.reply);
+    } catch (err) {
+      setSummary("Ozet olusturulamadi, tekrar dener misin?");
+    } finally {
+      setSummarizing(false);
+    }
+  }
 
   function handleChange(e) {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -179,9 +195,26 @@ export default function TrainingLogsPage() {
             </form>
 
             <div className="bg-surface border border-border rounded-sm p-6">
-              <h3 className="text-sm uppercase tracking-wide2 text-muted mb-4">
-                Roadmap Gecmisi
-              </h3>
+              <div className="flex justify-between items-center mb-4">
+                <h3 className="text-sm uppercase tracking-wide2 text-muted">
+                  Roadmap Gecmisi
+                </h3>
+                {logs.length > 0 && (
+                  <button
+                    onClick={handleSummarize}
+                    disabled={summarizing}
+                    className="text-xs bg-accent hover:bg-accentHover disabled:opacity-50 text-ink font-medium px-3 py-1.5 rounded-sm transition-colors"
+                  >
+                    {summarizing ? "Ozetleniyor..." : "✦ AI ile Ozetle"}
+                  </button>
+                )}
+              </div>
+
+              {summary && (
+                <div className="bg-accent/10 border border-accent/30 rounded-sm p-4 mb-4 text-sm text-ink">
+                  {summary}
+                </div>
+              )}
 
               {logs.length === 0 ? (
                 <p className="text-muted text-sm">Henuz kayit yok.</p>
